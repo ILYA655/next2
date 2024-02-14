@@ -5,6 +5,7 @@ import AwesomeSlider from "react-awesome-slider";
 import "react-awesome-slider/dist/styles.css";
 import "react-awesome-slider/dist/captioned.css";
 import styles from '../styles/Home.module.css'
+import Link from "next/link";
 
 const buttonStyle = {
   padding: "15px",
@@ -96,6 +97,9 @@ export default function Home() {
       
 
       <main className={styles.main}>
+
+
+
         <button onClick={logout}>logout</button>
         <h1>Petto</h1>
         <AwesomeSlider style={{ "--slider-height-percentage": "100%" }}>
@@ -105,6 +109,17 @@ export default function Home() {
           </div>)
           }
       </AwesomeSlider>
+          <br/>
+          <br/>
+          <br/>
+          <Link
+              target="_blank"
+              rel="noopener noreferrer"
+              href="auth"
+
+          >
+              <p>Нажми на меня...</p>
+          </Link>
       </main>
 
       <footer className={styles.footer}>
