@@ -34,8 +34,8 @@ const bgImg = {
     zIndex: 3,
     left: 0,
     top: 0,
-    width: "100%",
-    height: "100%"
+    width: "50%",
+    height: "50%"
 };
 
 function sendEmail(email) {
@@ -80,16 +80,20 @@ export default function Auth() {
                 </Head>
 
                 <main>
-                    <Link
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href="/"
-                    >
-                        logout
-                    </Link>
+                    <div>
+                        <Link
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href="/"
+                        >
+                            <p className={styles.logout}>logout</p>
+                        </Link>
+                    </div>
 
-                    <h1>Petto</h1>
-                    <AwesomeSlider style={{"--slider-height-percentage": "100%"}}>
+
+                    <h1 style={{textAlign: "center"}}>Petto</h1>
+
+                    <AwesomeSlider style={{"--slider-height-percentage": "100%", textAlign: "center"}}>
                         {
                             animals.map((data, i) => <div key={i} style={{zIndex: 2}}
                                                           onClick={() => sendEmail(data?.email)}>
@@ -100,7 +104,7 @@ export default function Auth() {
 
                 </main>
                 <footer className={styles.footer}>
-                    Petto, (c) 2022
+                    Petto, (c) 2024
                 </footer>
             </div>
         </>

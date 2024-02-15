@@ -3,7 +3,7 @@ import Head from 'next/head'
 import "react-awesome-slider/dist/styles.css";
 import "react-awesome-slider/dist/captioned.css";
 import styles from '../styles/Home.module.css'
-import {Button, Form, Input, Modal, Typography} from 'antd';
+import {Button, Input, Modal, Typography} from 'antd';
 
 
 export default function Home() {
@@ -28,48 +28,47 @@ export default function Home() {
             </Head>
 
             <main className={styles.main}>
-
                 <div>
                     <form action="auth" method="dialog">
                         <p>
                             <Typography htmlFor="email">Email:</Typography>
-                            <Input required type="text" id="email" name="email"/>
+                            <Input placeholder="enter email" required type="text" id="email" name="email"/>
                         </p>
 
                         <p>
                             <Typography htmlFor="pass">Password:</Typography>
-                            <Input required type="password" id="pass" name="pass"/>
+                            <Input placeholder="enter password" required type="password"/>
                         </p>
 
                         <p>
-                            <Button type="submit">Submit</Button>
+                            <Button type="primary">Submit</Button>
                         </p>
                     </form>
                     <div>
                         <>
                             <Button type="primary" onClick={showModal}>
-                                Open Modal
+                                Sign in
                             </Button>
-                            <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                            <Modal title="Who are YOU?" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                                 <form action="auth" method="dialog">
                                     <p>
                                         <Typography htmlFor="Fname">First name:</Typography>
-                                        <Input required type="text" id="Fname" name="Fname"/>
+                                        <Input placeholder="enter first name" required={true} type="" id="Fname" name="Fname"/>
                                     </p>
 
                                     <p>
                                         <Typography htmlFor="Lname">Last name:</Typography>
-                                        <Input required type="text" id="Lname" name="Lname"/>
+                                        <Input placeholder="enter last name" required type="text" id="Lname" name="Lname"/>
                                     </p>
 
                                     <p>
                                         <Typography htmlFor="email">Email:</Typography>
-                                        <Input required type="text" id="email" name="email"/>
+                                        <Input placeholder="enter email" required type="text" id="email" name="email"/>
                                     </p>
 
                                     <p>
                                         <Typography htmlFor="pass">Password:</Typography>
-                                        <Input required type="password" id="pass" name="pass"/>
+                                        <Input placeholder="enter password" required type="password" id="pass" name="pass"/>
                                     </p>
                                 </form>
                             </Modal>
