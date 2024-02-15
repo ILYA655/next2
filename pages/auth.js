@@ -3,6 +3,7 @@ import React from "react";
 import AwesomeSlider from "react-awesome-slider";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
+import {Carousel} from "antd";
 
 const buttonStyle = {
     padding: "15px",
@@ -31,12 +32,20 @@ const contentStyle = {
 
 const bgImg = {
     position: "fixed",
-    zIndex: 3,
+    // zIndex: 3,
     left: 0,
     top: 0,
-    width: "50%",
-    height: "50%"
+    // width: "50%",
+    // height: "50%"
 };
+
+const carousel = {
+    height: '160px',
+    color: '#fff',
+    lineHeight: '160px',
+    textAlign: 'center',
+    background: '#364d79',
+}
 
 function sendEmail(email) {
     const body = `Здравствуйте, я нашел вашего питомца.%0A-----------%0AС уважением, ${localStorage.user}`;
@@ -93,14 +102,24 @@ export default function Auth() {
 
                     <h1 style={{textAlign: "center"}}>Petto</h1>
 
-                    <AwesomeSlider style={{"--slider-height-percentage": "100%", textAlign: "center"}}>
-                        {
-                            animals.map((data, i) => <div key={i} style={{zIndex: 2}}
-                                                          onClick={() => sendEmail(data?.email)}>
-                                <Animal data={data}/>
-                            </div>)
-                        }
-                    </AwesomeSlider>
+                    {/*<AwesomeSlider style={{"--slider-height-percentage": "100%", textAlign: "center"}}>*/}
+                    {/*    {*/}
+                    {/*        animals.map((data, i) => <div key={i} style={{zIndex: 2}}*/}
+                    {/*                                      onClick={() => sendEmail(data?.email)}>*/}
+                    {/*            <Animal data={data}/>*/}
+                    {/*        </div>)*/}
+                    {/*    }*/}
+                    {/*</AwesomeSlider>*/}
+
+                    <Carousel autoplay>
+                            {/*<h3 style={carousel}>1</h3>*/}
+                            {
+                                animals.map((data, i) => <div key={i} style={{zIndex: 2}}
+                                                              onClick={() => sendEmail(data?.email)}>
+                                    <Animal data={data}/>
+                                </div>)
+                            }
+                    </Carousel>
 
                 </main>
                 <footer className={styles.footer}>
