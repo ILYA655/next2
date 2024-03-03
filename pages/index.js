@@ -1,21 +1,80 @@
+'use client'
 import React, {useState} from 'react'
 import Head from 'next/head'
 import "react-awesome-slider/dist/styles.css";
 import "react-awesome-slider/dist/captioned.css";
 import styles from '../styles/Home.module.css'
-import {Button, Input, Modal, Typography} from 'antd';
+import {Button, Form, Input, Modal, Typography} from 'antd';
+import Link from "next/link";
+import {openDb} from "./api/db";
+// import SQLite, {} from 'react-native-sqlite-storage';
 
+export async function getServerSideProps() {
+
+    // Open database
+    const db = await openDb()
+
+    // Get posts from database
+    const posts = await db.all('SELECT * FROM posts')
+    // Pass posts as prop to component
+    return {
+        props: {
+            posts
+        }
+    }
+}
+
+// const db = SQLite.openDatabase({ name: 'mydb.db' });
+
+// SQLite.enablePromise(true);
+// let db = SQLite.
+
+// const addRecord = (data) => {
+//     const db = openDb()
+//     db.transaction((tx) => {
+//         tx.executeSql(
+//             'INSERT INTO post (title, content) VALUES (?, ?)',
+//             [data.email, data.pass],
+//             (tx, results) => {
+//                 console.log('Record added successfully');
+//             },
+//             (error) => {
+//                 console.error(error);
+//             }
+//         );
+//     });
+// };
 
 export default function Home() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [form] = Form.useForm();
+
+    // const navigate = useNavigate();
     const showModal = () => {
         setIsModalOpen(true);
     };
-    const handleOk = () => {
+
+    const handleOk = async () => {
+        let values = form.getFieldsValue();
+        console.log(values);
+        // addRecord(values);
+        const db = await openDb()
+        await db.run(
+            'INSERT INTO posts (title, content) VALUES (?, ?)',
+            '1',
+            '1'
+        )
+        await db.close()
         setIsModalOpen(false);
+        window.location.href = "./auth"
     };
+
     const handleCancel = () => {
         setIsModalOpen(false);
+    };
+    const onFinish = async (values) => {
+
+
     };
 
     return (
@@ -50,28 +109,38 @@ export default function Home() {
                                 Sign in
                             </Button>
                             <Modal title="Who are YOU?" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                                <form action="auth" method="dialog">
-                                    <p>
-                                        <Typography htmlFor="Fname">First name:</Typography>
-                                        <Input placeholder="enter first name" required={true} type="" id="Fname" name="Fname"/>
-                                    </p>
+                                <Form form={form} action="./auth" method="dialog" onFinish={onFinish}>
+                                    <Form.Item name="Fname" label="First name: ">
+                                        <Input placeholder="enter first name" required={true} type="" id="Fname"
+                                               name="Fname"/>
+                                    </Form.Item>
 
-                                    <p>
-                                        <Typography htmlFor="Lname">Last name:</Typography>
-                                        <Input placeholder="enter last name" required type="text" id="Lname" name="Lname"/>
-                                    </p>
+                                    <Form.Item name="Lname" label="Last name: ">
+                                        <Input placeholder="enter last name" required type="text" id="Lname"
+                                               name="Lname"/>
+                                    </Form.Item>
 
-                                    <p>
-                                        <Typography htmlFor="email">Email:</Typography>
+                                    <Form.Item name="email" label="Email: ">
                                         <Input placeholder="enter email" required type="text" id="email" name="email"/>
-                                    </p>
+                                    </Form.Item>
 
-                                    <p>
-                                        <Typography htmlFor="pass">Password:</Typography>
-                                        <Input placeholder="enter password" required type="password" id="pass" name="pass"/>
-                                    </p>
-                                </form>
+                                    <Form.Item name="pass" label="Password: ">
+                                        <Input placeholder="enter password" required type="password" id="pass"
+                                               name="pass"/>
+                                    </Form.Item>
+                                    <Link
+                                        // target="_blank"
+                                        // rel="noopener noreferrer"
+                                        href="./auth"
+
+                                    >
+                                        <Button>bl</Button>
+                                    </Link>
+                                </Form>
                             </Modal>
+                            {/*{*/}
+                            {/*    redirect && navigate("./auth")*/}
+                            {/*}*/}
                         </>
                     </div>
                 </div>

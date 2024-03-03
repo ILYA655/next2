@@ -1,6 +1,5 @@
 import Head from "next/head";
 import React from "react";
-import AwesomeSlider from "react-awesome-slider";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import {Carousel} from "antd";
