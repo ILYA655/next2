@@ -16,8 +16,8 @@ const headerStyle = {
     color: 'white',
     position: "absolute",
     zIndex: 4,
-    top: '30%',
-    left: '40%'
+    top: '50%',
+    left: '50%'
 }
 
 const contentStyle = {

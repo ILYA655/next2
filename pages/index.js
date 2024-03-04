@@ -7,7 +7,6 @@ import styles from '../styles/Home.module.css'
 import {Button, Form, Input, Modal, Typography} from 'antd';
 import Link from "next/link";
 import {openDb} from "./api/db";
-// import SQLite, {} from 'react-native-sqlite-storage';
 
 export async function getServerSideProps() {
 
@@ -24,27 +23,6 @@ export async function getServerSideProps() {
     }
 }
 
-// const db = SQLite.openDatabase({ name: 'mydb.db' });
-
-// SQLite.enablePromise(true);
-// let db = SQLite.
-
-// const addRecord = (data) => {
-//     const db = openDb()
-//     db.transaction((tx) => {
-//         tx.executeSql(
-//             'INSERT INTO post (title, content) VALUES (?, ?)',
-//             [data.email, data.pass],
-//             (tx, results) => {
-//                 console.log('Record added successfully');
-//             },
-//             (error) => {
-//                 console.error(error);
-//             }
-//         );
-//     });
-// };
-
 export default function Home() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
@@ -57,12 +35,11 @@ export default function Home() {
     const handleOk = async () => {
         let values = form.getFieldsValue();
         console.log(values);
-        // addRecord(values);
         const db = await openDb()
         await db.run(
             'INSERT INTO posts (title, content) VALUES (?, ?)',
-            '1',
-            '1'
+            '888',
+            '888'
         )
         await db.close()
         setIsModalOpen(false);
@@ -129,18 +106,13 @@ export default function Home() {
                                                name="pass"/>
                                     </Form.Item>
                                     <Link
-                                        // target="_blank"
-                                        // rel="noopener noreferrer"
-                                        href="./auth"
+                                        href="./api/seed"
 
                                     >
                                         <Button>bl</Button>
                                     </Link>
                                 </Form>
                             </Modal>
-                            {/*{*/}
-                            {/*    redirect && navigate("./auth")*/}
-                            {/*}*/}
                         </>
                     </div>
                 </div>
