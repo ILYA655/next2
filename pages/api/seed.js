@@ -5,18 +5,17 @@ export default async function setup() {
     const db = await openDb()
 
     // Define table schema
-    //
     // await db.exec(`
-    //       CREATE TABLE posts (
+    //       CREATE TABLE data (
     //         id INTEGER PRIMARY KEY AUTOINCREMENT,
-    //         title TEXT,
-    //         content TEXT
+    //         Email TEXT,
+    //         Password TEXT
     //       );
     //     `)
 
     // Insert dummy data
     await db.run(
-        'INSERT INTO posts (title, content) VALUES (?, ?)',
+        'INSERT INTO data (Email, Password) VALUES (?, ?)',
         '666',
         '666'
     )

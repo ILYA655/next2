@@ -1,12 +1,12 @@
 'use client'
-import React, {useState} from 'react'
+import React, {useEffect} from 'react'
 import Head from 'next/head'
 import "react-awesome-slider/dist/styles.css";
 import "react-awesome-slider/dist/captioned.css";
 import styles from '../styles/Home.module.css'
-import {Button, Form, Input, Modal, Typography} from 'antd';
+import {Button, Form, Input} from 'antd';
 import Link from "next/link";
-import {openDb} from "./api/db";
+// import {openDb} from "./api/db";
 
 export async function getServerSideProps() {
 
@@ -14,44 +14,55 @@ export async function getServerSideProps() {
     const db = await openDb()
 
     // Get posts from database
-    const posts = await db.all('SELECT * FROM posts')
+    const data = await db.all('SELECT * FROM data')
     // Pass posts as prop to component
     return {
         props: {
-            posts
+            data
         }
     }
 }
 
 export default function Home() {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    useEffect(() => {
+        async function createFile() {
+            const response = await fetch('/api/createFile', { method: 'POST' });
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data.message);
+            } else {
+                console.error('Failed to create file');
+            }
+        }
+
+        createFile();
+    }, []);
+
     const [form] = Form.useForm();
 
-    // const navigate = useNavigate();
-    const showModal = () => {
-        setIsModalOpen(true);
-    };
 
-    const handleOk = async () => {
+
+    const onFinish = async () => {
+
         let values = form.getFieldsValue();
         console.log(values);
-        const db = await openDb()
-        await db.run(
-            'INSERT INTO posts (title, content) VALUES (?, ?)',
-            '888',
-            '888'
-        )
-        await db.close()
-        setIsModalOpen(false);
+
+        // Для записи в бд раскомментить 9, 53-59, но при запуске будет "Application error: a client-side exception has occurred (see the browser console for more information)."
+
+        // const db = await openDb()
+        // await db.run(
+        //     'INSERT INTO data (Email, Password) VALUES (?, ?)',
+        //     values.email,
+        //     values.pass
+        // )
+        // await db.close()
+
+        await fetch('/api/createFile', { method: 'POST', headers: {
+                'Content-Type': 'application/json',
+            }, body: JSON.stringify(values)});
+
         window.location.href = "./auth"
-    };
-
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
-    const onFinish = async (values) => {
-
-
     };
 
     return (
@@ -65,56 +76,31 @@ export default function Home() {
 
             <main className={styles.main}>
                 <div>
-                    <form action="auth" method="dialog">
-                        <p>
-                            <Typography htmlFor="email">Email:</Typography>
-                            <Input placeholder="enter email" required type="text" id="email" name="email"/>
-                        </p>
+                    <>
+                        {/*<Modal title="Who are YOU?" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>*/}
+                        <Form form={form} action="./auth" method="dialog" onFinish={onFinish}>
+                            <Form.Item name="email" label="Email: ">
+                                <Input placeholder="enter email" required type="text" id="email" name="email"/>
+                            </Form.Item>
 
-                        <p>
-                            <Typography htmlFor="pass">Password:</Typography>
-                            <Input placeholder="enter password" required type="password"/>
-                        </p>
+                            <Form.Item name="pass" label="Password: ">
+                                <Input placeholder="enter password" required type="password" id="pass"
+                                       name="pass"/>
+                            </Form.Item>
+                            <Form.Item>
+                                <Button type="primary" htmlType="submit">
+                                    Log in
+                                </Button>
+                            </Form.Item>
+                            <Form.Item>
+                                <Link href="./api/seed">
+                                    <Button>Тестовая кнопка для записи чего-то в БД</Button>
+                                </Link>
+                            </Form.Item>
 
-                        <p>
-                            <Button type="primary">Submit</Button>
-                        </p>
-                    </form>
-                    <div>
-                        <>
-                            <Button type="primary" onClick={showModal}>
-                                Sign in
-                            </Button>
-                            <Modal title="Who are YOU?" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                                <Form form={form} action="./auth" method="dialog" onFinish={onFinish}>
-                                    <Form.Item name="Fname" label="First name: ">
-                                        <Input placeholder="enter first name" required={true} type="" id="Fname"
-                                               name="Fname"/>
-                                    </Form.Item>
-
-                                    <Form.Item name="Lname" label="Last name: ">
-                                        <Input placeholder="enter last name" required type="text" id="Lname"
-                                               name="Lname"/>
-                                    </Form.Item>
-
-                                    <Form.Item name="email" label="Email: ">
-                                        <Input placeholder="enter email" required type="text" id="email" name="email"/>
-                                    </Form.Item>
-
-                                    <Form.Item name="pass" label="Password: ">
-                                        <Input placeholder="enter password" required type="password" id="pass"
-                                               name="pass"/>
-                                    </Form.Item>
-                                    <Link
-                                        href="./api/seed"
-
-                                    >
-                                        <Button>bl</Button>
-                                    </Link>
-                                </Form>
-                            </Modal>
-                        </>
-                    </div>
+                        </Form>
+                        {/*</Modal>*/}
+                    </>
                 </div>
             </main>
         </div>

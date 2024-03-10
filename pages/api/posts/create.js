@@ -3,13 +3,13 @@ import { openDb } from '../db.js'
 async function handler(req, res) {
 
     // Get post data from request body
-    const { title, content } = req.body
+    const { Email, Password } = req.body
 
     // Insert post into database
     const db = await openDb()
     const result = await db.run(
-        'INSERT INTO posts (title, content) VALUES (?, ?)',
-        [title, content]
+        'INSERT INTO posts (Email, Password) VALUES (?, ?)',
+        [Email, Password]
     )
     await db.close()
 
