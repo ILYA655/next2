@@ -6,7 +6,7 @@ import "react-awesome-slider/dist/captioned.css";
 import styles from '../styles/Home.module.css'
 import {Button, Form, Input} from 'antd';
 import Link from "next/link";
-// import {openDb} from "./api/db";
+import {openDb} from "./api/db";
 
 export async function getServerSideProps() {
 

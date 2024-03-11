@@ -90,8 +90,6 @@ export default function Auth() {
                 <main>
                     <div>
                         <Link
-                            target="_blank"
-                            rel="noopener noreferrer"
                             href="/"
                         >
                             <p className={styles.logout}>logout</p>

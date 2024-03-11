@@ -29,11 +29,20 @@
 // import {openDb} from "./db";
 // import path from "node:path";
 import fs from "fs";
+import {openDb} from "./db";
 
 async function handler(req, res) {
 
     if (req.method === 'POST') {
         const data = { email: req.body.email, pass: req.body.pass };
+
+        const db = await openDb()
+        await db.run(
+            'INSERT INTO data (Email, Password) VALUES (?, ?)',
+            data.email,
+            data.pass
+        )
+        await db.close()
 
         // fs.appendFileSync('data.json', JSON.stringify(data));
         fs.writeFileSync('data.json', JSON.stringify(data));
